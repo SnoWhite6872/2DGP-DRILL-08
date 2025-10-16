@@ -27,15 +27,19 @@ class AutoRun:
         self.boy = boy
 
     def enter(self,e):
+        self.boy.dir = 1
         pass
 
     def exit(self,e):
         pass
 
     def do(self):
+        self.boy.frame = (self.boy.frame + 1) % 8
+        self.boy.x += self.boy.dir*10
         pass
 
     def draw(self):
+        self.boy.image.clip_draw(self.boy.frame * 100, 100, 100, 100, self.boy.x, self.boy.y)
         pass
 
 class Run:
