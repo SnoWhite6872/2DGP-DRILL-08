@@ -35,7 +35,7 @@ class AutoRun:
 
     def do(self):
         self.boy.frame = (self.boy.frame + 1) % 8
-        if self.boy.x <=0 or self.boy.x>= 800:
+        if self.boy.x <=60 or self.boy.x>= 740:
             self.boy.a_dir *= -1
         self.boy.x += self.boy.a_dir*10
         pass
@@ -44,7 +44,7 @@ class AutoRun:
         if self.boy.a_dir == 1:
             self.boy.image.clip_draw(self.boy.frame * 100, 100, 100, 100, self.boy.x, self.boy.y+100, 400, 400)
         else:
-            self.boy.image.clip_draw(self.boy.frame * 100, 100, 100, 100, self.boy.x, self.boy.y+100, 400, 400)
+            self.boy.image.clip_draw(self.boy.frame * 100,   0, 100, 100, self.boy.x, self.boy.y+100, 400, 400)
         pass
 
 class Run:
