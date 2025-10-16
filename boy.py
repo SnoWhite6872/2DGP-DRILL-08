@@ -27,7 +27,7 @@ class AutoRun:
         self.boy = boy
 
     def enter(self,e):
-        self.boy.dir = 1
+        self.boy.a_dir = 1
         pass
 
     def exit(self,e):
@@ -35,11 +35,16 @@ class AutoRun:
 
     def do(self):
         self.boy.frame = (self.boy.frame + 1) % 8
-        self.boy.x += self.boy.dir*10
+        if self.boy.x <=0 or self.boy.x>= 800:
+            self.boy.a_dir *= -1
+        self.boy.x += self.boy.a_dir*10
         pass
 
     def draw(self):
-        self.boy.image.clip_draw(self.boy.frame * 100, 100, 100, 100, self.boy.x, self.boy.y)
+        if self.boy.a_dir == 1:
+            self.boy.image.clip_draw(self.boy.frame * 100, 100, 100, 100, self.boy.x, self.boy.y+100, 400, 400)
+        else:
+            self.boy.image.clip_draw(self.boy.frame * 100, 100, 100, 100, self.boy.x, self.boy.y+100, 400, 400)
         pass
 
 class Run:
@@ -118,6 +123,7 @@ class Boy:
         self.frame = 0
         self.face_dir = 1
         self.dir = 0
+        self.a_dir = 0
         self.image = load_image('animation_sheet.png')
 
         self.IDLE = Idle(self)
