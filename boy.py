@@ -18,6 +18,9 @@ def left_up(e): #e가 왼쪽 key input인가를 확인
 def time_out(e): #e가 시간초과 이벤트인가를 확인
     return e[0] == 'TIME_OUT'
 
+def time_over(e):
+    return e[0] == 'TIME_OVER'
+
 def space_down(e): #e가 space key input인가를 확인
     return e[0] == 'INPUT' and e[1].type == SDL_KEYDOWN and e[1].key == SDLK_SPACE #핵심적인 부분!
 
@@ -136,7 +139,7 @@ class Boy:
                 self.SLEEP : {space_down: self.IDLE},
                 self.IDLE :  {a_down: self.AUTORUN , left_up: self.RUN, right_up: self.RUN, left_down: self.RUN, right_down: self.RUN, time_out : self.SLEEP},
                 self.RUN :   {right_down: self.IDLE, left_up: self.IDLE,left_down: self.IDLE, right_up: self.IDLE},
-                self.AUTORUN : {}
+                self.AUTORUN : {time_over: self.IDLE}
 
             }
         )
