@@ -28,10 +28,10 @@ class AutoRun:
 
     def __init__(self, boy):
         self.boy = boy
-        self.boy.over_autorun_time = get_time()
 
     def enter(self,e):
         self.boy.a_dir = 1
+        self.boy.over_autorun_time = get_time()
         pass
 
     def exit(self,e):
