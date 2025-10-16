@@ -1,10 +1,11 @@
 from pico2d import load_image, get_time
-from sdl2 import SDL_KEYDOWN, SDLK_SPACE, SDLK_RIGHT, SDL_KEYUP, SDLK_LEFT
+from sdl2 import SDL_KEYDOWN, SDLK_SPACE, SDLK_RIGHT, SDL_KEYUP, SDLK_LEFT, SDLK_a
 
 from state_machine import StateMachine
 
 #이벤트 체크 함수
-
+def a_down(e):
+    return e[0] == 'INPUT' and e[1].type == SDL_KEYDOWN and e[1].key == SDLK_a
 def right_down(e): #e가 오른쪽 key input인가를 확인
     return e[0] == 'INPUT' and e[1].type == SDL_KEYDOWN and e[1].key == SDLK_RIGHT
 def left_down(e): #e가 왼쪽 key input인가를 확인
@@ -19,6 +20,23 @@ def time_out(e): #e가 시간초과 이벤트인가를 확인
 
 def space_down(e): #e가 space key input인가를 확인
     return e[0] == 'INPUT' and e[1].type == SDL_KEYDOWN and e[1].key == SDLK_SPACE #핵심적인 부분!
+
+class AutoRun:
+
+    def __init__(self, boy):
+        self.boy = boy
+
+    def enter(self,e):
+        pass
+
+    def exit(self,e):
+        pass
+
+    def do(self):
+        pass
+
+    def draw(self):
+        pass
 
 class Run:
 
@@ -101,12 +119,14 @@ class Boy:
         self.IDLE = Idle(self)
         self.SLEEP = Sleep(self)
         self.RUN = Run(self)
+        self.AUTORUN = AutoRun(self)
         self.state_machine = StateMachine(
             self.IDLE, #초기상태
             {
                 self.SLEEP : {space_down: self.IDLE},
-                self.IDLE : {left_up: self.RUN, right_up: self.RUN, left_down: self.RUN, right_down: self.RUN, time_out : self.SLEEP},
-                self.RUN : {right_down: self.IDLE, left_up: self.IDLE,left_down: self.IDLE, right_up: self.IDLE}
+                self.IDLE :  {a_down: self.AUTORUN , left_up: self.RUN, right_up: self.RUN, left_down: self.RUN, right_down: self.RUN, time_out : self.SLEEP},
+                self.RUN :   {right_down: self.IDLE, left_up: self.IDLE,left_down: self.IDLE, right_up: self.IDLE},
+                self.AUTORUN : {}
 
             }
         )
