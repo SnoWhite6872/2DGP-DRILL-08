@@ -28,6 +28,7 @@ class AutoRun:
 
     def __init__(self, boy):
         self.boy = boy
+        self.boy.over_autorun_time = get_time()
 
     def enter(self,e):
         self.boy.a_dir = 1
@@ -41,6 +42,8 @@ class AutoRun:
         if self.boy.x <=60 or self.boy.x>= 740:
             self.boy.a_dir *= -1
         self.boy.x += self.boy.a_dir*10
+        if get_time() - self.boy.over_autorun_time > 5.0:
+            self.boy.state_machine.handle_state_event(('TIME_OVER', 0))
         pass
 
     def draw(self):
@@ -110,7 +113,7 @@ class Idle:
     def do(self):
         self.boy.frame = (self.boy.frame + 1) % 8
         #2초가 경과하면 TIME_OUT 이벤트 발생
-        if get_time() - self.boy.wait_start_time > 1000000.0:
+        if get_time() - self.boy.wait_start_time > 5.0:
             self.boy.state_machine.handle_state_event(('TIME_OUT', 0))
 
     def draw(self):
